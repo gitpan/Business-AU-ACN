@@ -1,17 +1,17 @@
 package Business::AU::ACN;
 use base qw/Exporter/;
 use vars qw/$VERSION/;
-$VERSION = "0.29";
+$VERSION = "0.31";
 
 =head1 NAME
 
-Business::ACN - Validate ACN - Australian Company Number
+Business::AU::ACN - Validate ACN - Australian Company Number
 
 =head1 SYNOPSIS
 
-    use Business::ACN;
+    use Business::AU::ACN;
  
-    print Business::ACN::validate("123 456 789");
+    print Business::AU::ACN::validate("123 456 789");
 
 =head1 DESCRIPTION
 
@@ -28,11 +28,12 @@ http://www.asic.gov.au/asic/ASIC_INFOCO.NSF/byid/CA256AE900038AEACA256AFB008053E
 
 =head1 AUTHOR
 
-Scott Penrose <scottp@dd.com.au>
+Scott Penrose <scottp@dd.com.au>, 
+Tom Harrison <tomh@apnic.net>
 
 =head1 SEE ALSO
 
-L<Business:ACN>
+L<Business:AU::ACN>
 
 =cut
 
@@ -51,6 +52,9 @@ sub validate {
 		$acc += $acn[$i] * (8 - $i);
 	}
 	$acc = 10 - ($acc % 10);
+        if ($acc == 10) {
+            $acc = 0;
+        }
 
 	# check it is valid
 	if ($acn[8] == $acc) {
